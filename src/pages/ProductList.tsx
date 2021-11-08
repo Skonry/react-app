@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import useApiQuery from '../hooks/useApiQuery';
 import { ProductAjaxDto } from '../api-types';
 
@@ -19,6 +21,9 @@ function ProductList() {
             <tr key={product.id}>
               <td>{product.name}</td>
               <td>{product.category?.name}</td>
+              <td>
+                <Link className="nav-link" to={`${product.id}/edit`}>Edit</Link>
+              </td>
             </tr>
           ))}
         </tbody>
