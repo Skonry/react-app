@@ -24,7 +24,7 @@ function useApi(resource, method, data) {
     fetch(`${apiUrl}/${resource}`, apiOptions)
      .then(response => response.json())
      .then(data => setApiResponse(data));
-  });
+  }, []);
 
   return {
     data: apiResponse?.data,
