@@ -1,14 +1,14 @@
+import { Outlet } from 'react-router';
+
 import Navbar from './components/Navbar';
 
-type AppProps = {
-  children: React.ReactNode;
-}
-
-function App({ children }: AppProps) {
+function App() {
   return (
     <div>
       <Navbar />
-      <main>{children}</main>
+      <main>
+        <Outlet />
+      </main>
     </div>
   );
 }
