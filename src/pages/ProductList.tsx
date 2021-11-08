@@ -6,7 +6,7 @@ function ProductList() {
 
   return (
     <div>
-      <h1>List of products</h1>
+      <h1 className="text-center my-5">List of products</h1>
       <table className="table">
         <thead>
           <tr>

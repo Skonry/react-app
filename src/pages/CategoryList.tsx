@@ -6,7 +6,7 @@ function CategoryList() {
 
   return (
     <div>
-      <h1>List of categories</h1>
+      <h1 className="text-center my-5">List of categories</h1>
       <table className="table">
         <thead>
           <tr>
