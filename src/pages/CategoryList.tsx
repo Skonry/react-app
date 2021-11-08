@@ -11,7 +11,6 @@ function CategoryList() {
         <thead>
           <tr>
             <th scope="col">Name</th>
-            <th scope="col">Category</th>
           </tr>
         </thead>
         <tbody>
