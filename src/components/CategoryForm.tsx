@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type CategoryFormProps = {
   onCategoryFormSubmit: ((categoryName: string) => void);
@@ -7,7 +7,11 @@ type CategoryFormProps = {
 };
 
 function CategoryForm({ onCategoryFormSubmit, buttonLabel, oldCategoryName = ''}: CategoryFormProps) {
-  const [name, setName] = useState(oldCategoryName);
+  const [name, setName] = useState('');
+
+  useEffect(() => {
+    setName(oldCategoryName);
+  }, [oldCategoryName]);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -26,7 +30,7 @@ function CategoryForm({ onCategoryFormSubmit, buttonLabel, oldCategoryName = ''}
           onChange={e => setName(e.target.value)}
         />
       </div>
-      <button type="submit" className="btn btn-primary">Submit</button>
+      <button type="submit" className="btn btn-primary">{buttonLabel}</button>
     </form>
   );
 }

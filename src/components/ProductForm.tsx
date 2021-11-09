@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import useApiQuery from '../hooks/useApiQuery';
 import { ProductCategoryAjaxDto } from '../api-types';
@@ -10,9 +10,14 @@ type ProductFormProps = {
   oldCategoryId?: string;
 };
 
-function ProductForm({ onProductFormSubmit, oldProductName = '', oldCategoryId = '-1'}: ProductFormProps) {
+function ProductForm({ onProductFormSubmit, buttonLabel, oldProductName = '', oldCategoryId = '-1'}: ProductFormProps) {
   const [name, setName] = useState(oldProductName);
   const [categoryId, setCategoryId] = useState(oldCategoryId);
+
+  useEffect(() => {
+    setName(oldProductName);
+    setCategoryId(oldCategoryId);
+  }, [oldProductName, oldCategoryId]);
 
   const { data: categories = [] }: { data: ProductCategoryAjaxDto[]} = useApiQuery('product_categories');
 
@@ -41,7 +46,7 @@ function ProductForm({ onProductFormSubmit, oldProductName = '', oldCategoryId =
           ))}
         </select>
       </div>
-      <button type="submit" className="btn btn-primary">Submit</button>
+      <button type="submit" className="btn btn-primary">{buttonLabel}</button>
     </form>
   );
 }
