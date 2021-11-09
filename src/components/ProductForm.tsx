@@ -1,26 +1,24 @@
 import { useState } from 'react';
 
 import useApiQuery from '../hooks/useApiQuery';
-import useApiCommand from '../hooks/useApiCommand';
-
 import { ProductCategoryAjaxDto } from '../api-types';
 
-function ProductForm({ oldProductName = '', oldCategoryId = '-1'}) {
+type ProductFormProps = {
+  onProductFormSubmit: ((productName: string, categoryId: string) => void);
+  buttonLabel: string;
+  oldProductName?: string;
+  oldCategoryId?: string;
+};
+
+function ProductForm({ onProductFormSubmit, oldProductName = '', oldCategoryId = '-1'}: ProductFormProps) {
   const [name, setName] = useState(oldProductName);
   const [categoryId, setCategoryId] = useState(oldCategoryId);
 
   const { data: categories = [] }: { data: ProductCategoryAjaxDto[]} = useApiQuery('product_categories');
 
-  const { callApi } = useApiCommand('products', 'POST');
-
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    callApi({
-      name,
-      category_id: categoryId,
-      //measure_type: 'sztuka',
-      //type: 'BASIC'
-    });
+    onProductFormSubmit(name, categoryId);
   }
 
   return(

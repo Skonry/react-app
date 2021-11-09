@@ -1,7 +1,26 @@
 import ProductForm from '../components/ProductForm';
 import CategoryForm from '../components/CategoryForm';
+import useApiCommand from '../hooks/useApiCommand';
 
 function CreateContent() {
+  const { callApi: callApiProducts } = useApiCommand('products', 'POST');
+  const { callApi: callApiCategories } = useApiCommand('categories', 'POST');
+
+  const onProductFormSubmit = (productName: string, categoryId: string): void => {
+    callApiProducts({
+      name: productName,
+      category_id: categoryId,
+      //measure_type: 'sztuka',
+      //type: 'BASIC'
+    });
+  }
+
+  const onCategoryFormSubmit = (categoryName: string): void => {
+    callApiCategories({
+      name: categoryName
+    });
+  }
+
   return (
     <div>
       <h1 className="text-center my-5">CreateContent</h1>
@@ -13,7 +32,7 @@ function CreateContent() {
                 <h2>Create Product</h2>
               </div>
               <div className="card-body">
-                <ProductForm />
+                <ProductForm onProductFormSubmit={onProductFormSubmit} buttonLabel="Create" />
               </div>
             </div>
           </div>
@@ -23,7 +42,7 @@ function CreateContent() {
                 <h2>Create Product</h2>
               </div>
               <div className="card-body">
-                <CategoryForm />
+                <CategoryForm onCategoryFormSubmit={onCategoryFormSubmit} buttonLabel="Create" />
               </div>
             </div>
           </div>

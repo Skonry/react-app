@@ -1,17 +1,17 @@
 import { useState } from 'react';
 
-import useApiCommand from '../hooks/useApiCommand';
+type CategoryFormProps = {
+  onCategoryFormSubmit: ((categoryName: string) => void);
+  buttonLabel: string;
+  oldCategoryName?: string;
+};
 
-function CategoryForm({ oldCategoryName = ''}) {
+function CategoryForm({ onCategoryFormSubmit, buttonLabel, oldCategoryName = ''}: CategoryFormProps) {
   const [name, setName] = useState(oldCategoryName);
-
-  const { callApi } = useApiCommand('product_categories', 'POST');
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    callApi({
-      name
-    });
+    onCategoryFormSubmit(name);
   }
 
   return(
