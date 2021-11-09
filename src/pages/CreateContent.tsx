@@ -6,12 +6,12 @@ function CreateContent() {
   const { callApi: callApiProducts } = useApiCommand('products', 'POST');
   const { callApi: callApiCategories } = useApiCommand('product_categories', 'POST');
 
-  const onProductFormSubmit = (productName: string, categoryId: string): void => {
+  const onProductFormSubmit = (productName: string, categoryId: number | undefined): void => {
     callApiProducts({
       name: productName,
       category_id: categoryId,
-      //measure_type: 'sztuka',
-      //type: 'BASIC'
+      measure_type: 'sztuka',
+      type: 'BASIC'
     });
   }
 

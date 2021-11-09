@@ -4,27 +4,43 @@ import useApiQuery from '../hooks/useApiQuery';
 import { ProductCategoryAjaxDto } from '../api-types';
 
 type ProductFormProps = {
-  onProductFormSubmit: ((productName: string, categoryId: string) => void);
+  onProductFormSubmit: ((productName: string, categoryId: number | undefined) => void);
   buttonLabel: string;
   oldProductName?: string;
-  oldCategoryId?: string;
+  oldCategoryId?: number ;
 };
 
-function ProductForm({ onProductFormSubmit, buttonLabel, oldProductName = '', oldCategoryId = '-1'}: ProductFormProps) {
+const getSelectedCategoryIndex = (categories: ProductCategoryAjaxDto[], categoryId: number | undefined): number => {
+  if (categoryId) {
+    return categories.findIndex(category => category.id = categoryId);
+  }
+
+  return 0;
+}
+
+function ProductForm({ onProductFormSubmit, buttonLabel, oldCategoryId, oldProductName = ''}: ProductFormProps) {
+  const { data: categories = [] }: { data: ProductCategoryAjaxDto[]} = useApiQuery('product_categories');
+
   const [name, setName] = useState(oldProductName);
-  const [categoryId, setCategoryId] = useState(oldCategoryId);
+  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(getSelectedCategoryIndex(categories, oldCategoryId));
 
   useEffect(() => {
     setName(oldProductName);
-    setCategoryId(oldCategoryId);
+    setSelectedCategoryIndex(getSelectedCategoryIndex(categories, oldCategoryId));
   }, [oldProductName, oldCategoryId]);
 
-  const { data: categories = [] }: { data: ProductCategoryAjaxDto[]} = useApiQuery('product_categories');
+  useEffect(() => {
+    setSelectedCategoryIndex(getSelectedCategoryIndex(categories, oldCategoryId))
+  }, [categories]);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    onProductFormSubmit(name, categoryId);
+    onProductFormSubmit(name, categories[selectedCategoryIndex].id);
   }
+
+  const handleChange = (e: any) => {
+    setSelectedCategoryIndex(getSelectedCategoryIndex(categories, Number(e.target.value)));
+  } 
 
   return(
     <form onSubmit={handleSubmit}>
@@ -40,7 +56,7 @@ function ProductForm({ onProductFormSubmit, buttonLabel, oldProductName = '', ol
       </div>
       <div className="mb-3">
         <label className="form-label" htmlFor="category">Select category</label>
-        <select className="form-select" value={categoryId} onChange={e => setCategoryId(e.target.value)}>
+        <select className="form-select" value={categories[selectedCategoryIndex]?.id} onChange={handleChange}>
           {categories.map(category => (
             <option key={category.id} value={category.id}>{category.name}</option>
           ))}

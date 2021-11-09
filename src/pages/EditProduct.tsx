@@ -11,7 +11,7 @@ function EditProduct() {
 
   const { callApi } = useApiCommand(`products${id}`, 'PUT');
 
-  const onProductFormSubmit = (productName: string, categoryId: string): void => {
+  const onProductFormSubmit = (productName: string, categoryId: number | undefined): void => {
     callApi({
       name: productName,
       category_id: categoryId,
