@@ -9,14 +9,12 @@ function EditProduct() {
 
   const { data = {} } = useApiQuery(`products/${id}`);
 
-  const { callApi } = useApiCommand(`products${id}`, 'PUT');
+  const { callApi } = useApiCommand(`products/${id}`, 'PUT');
 
   const onProductFormSubmit = (productName: string, categoryId: number | undefined): void => {
     callApi({
       name: productName,
-      category_id: categoryId,
-      //measure_type: 'sztuka',
-      //type: 'BASIC'
+      category_id: categoryId
     });
   }
 
