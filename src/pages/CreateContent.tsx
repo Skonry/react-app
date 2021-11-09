@@ -4,7 +4,7 @@ import useApiCommand from '../hooks/useApiCommand';
 
 function CreateContent() {
   const { callApi: callApiProducts } = useApiCommand('products', 'POST');
-  const { callApi: callApiCategories } = useApiCommand('categories', 'POST');
+  const { callApi: callApiCategories } = useApiCommand('product_categories', 'POST');
 
   const onProductFormSubmit = (productName: string, categoryId: string): void => {
     callApiProducts({
