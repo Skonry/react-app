@@ -3,10 +3,13 @@ import { useEffect, useState } from 'react';
 type CategoryFormProps = {
   onCategoryFormSubmit: ((categoryName: string) => void);
   buttonLabel: string;
+  validationErrors: {
+    [field: string]: string[]
+  }
   oldCategoryName?: string;
 };
 
-function CategoryForm({ onCategoryFormSubmit, buttonLabel, oldCategoryName = ''}: CategoryFormProps) {
+function CategoryForm({ onCategoryFormSubmit, buttonLabel, validationErrors, oldCategoryName = ''}: CategoryFormProps) {
   const [name, setName] = useState('');
 
   useEffect(() => {
@@ -24,11 +27,16 @@ function CategoryForm({ onCategoryFormSubmit, buttonLabel, oldCategoryName = ''}
         <label className="form-label" htmlFor="category_name">Category name</label>
         <input 
           type="text"
-          className="form-control"
+          className={`form-control ${validationErrors['name']?.length > 0 ? 'is-invalid': ''}`}
           id="category_name"
           value={name}
           onChange={e => setName(e.target.value)}
         />
+        {validationErrors['name']?.map(message => (
+          <div key={message} className="invalid-feedback"> 
+            {message}
+          </div>
+        ))}
       </div>
       <button type="submit" className="btn btn-primary">{buttonLabel}</button>
     </form>

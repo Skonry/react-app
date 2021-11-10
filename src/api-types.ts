@@ -1,3 +1,9 @@
+export interface ApiError {
+  code: string;
+  field: string;
+  message: string;
+}
+
 export interface BasicProductAjaxDto {
   components?: ProductComponentAjaxDto[];
   id?: number;

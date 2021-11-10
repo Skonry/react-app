@@ -1,8 +1,14 @@
+import { useState } from 'react';
+
 import ProductForm from '../components/ProductForm';
 import CategoryForm from '../components/CategoryForm';
 import useApiCommand from '../hooks/useApiCommand';
+import getValidationFeedbackMessages from '../helpers/getValidationFeedbackMessages';
 
 function CreateContent() {
+  const [productValidationErrors, setProductValidationErrors] = useState({});
+  const [categoryValidationErrors, setCategoryValidationErrors] = useState({});
+
   const { callApi: callApiProducts } = useApiCommand('products', 'POST');
   const { callApi: callApiCategories } = useApiCommand('product_categories', 'POST');
 
@@ -10,18 +16,24 @@ function CreateContent() {
     callApiProducts({
       name: productName,
       category_id: categoryId
+    })
+    .then(response => {
+      setProductValidationErrors(getValidationFeedbackMessages(response.errors));
     });
   }
 
   const onCategoryFormSubmit = (categoryName: string): void => {
     callApiCategories({
       name: categoryName
+    })
+    .then(response => {
+      setCategoryValidationErrors(getValidationFeedbackMessages(response.errors));
     });
   }
 
   return (
     <div>
-      <h1 className="text-center my-5">CreateContent</h1>
+      <h1 className="text-center my-5">Create Content</h1>
       <div className="container">
         <div className="row">
           <div className="col">
@@ -30,7 +42,11 @@ function CreateContent() {
                 <h2>Create Product</h2>
               </div>
               <div className="card-body">
-                <ProductForm onProductFormSubmit={onProductFormSubmit} buttonLabel="Create" />
+                <ProductForm 
+                  onProductFormSubmit={onProductFormSubmit} 
+                  buttonLabel="Create" 
+                  validationErrors={productValidationErrors}
+                />
               </div>
             </div>
           </div>
@@ -40,7 +56,11 @@ function CreateContent() {
                 <h2>Create Product</h2>
               </div>
               <div className="card-body">
-                <CategoryForm onCategoryFormSubmit={onCategoryFormSubmit} buttonLabel="Create" />
+                <CategoryForm 
+                  onCategoryFormSubmit={onCategoryFormSubmit} 
+                  buttonLabel="Create" 
+                  validationErrors={categoryValidationErrors}
+                />
               </div>
             </div>
           </div>
