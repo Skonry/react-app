@@ -38,7 +38,7 @@ function ProductForm({ onProductFormSubmit, buttonLabel, validationErrors, oldCa
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    onProductFormSubmit(name, undefined);
+    onProductFormSubmit(name, categories[selectedCategoryIndex].id);
   }
 
   const handleChange = (e: any) => {
