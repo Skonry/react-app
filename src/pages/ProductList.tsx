@@ -4,7 +4,7 @@ import useApiQuery from '../hooks/useApiQuery';
 import { ProductAjaxDto } from '../api-types';
 
 function ProductList() {
-  const { data: products = [] }: { data: ProductAjaxDto[]} = useApiQuery('products');
+  const { data: products = [] }: { data: ProductAjaxDto[]} = useApiQuery('products?include=category');
 
   return (
     <div>
