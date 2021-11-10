@@ -15,7 +15,7 @@ type ProductFormProps = {
 
 const getSelectedCategoryIndex = (categories: ProductCategoryAjaxDto[], categoryId: number | undefined): number => {
   if (categoryId) {
-    return categories.findIndex(category => category.id = categoryId);
+    return categories.findIndex(category => category.id == categoryId);
   }
 
   return 0;
