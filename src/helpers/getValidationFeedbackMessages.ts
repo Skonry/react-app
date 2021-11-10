@@ -10,6 +10,9 @@ function getMessage(error: ApiError): string {
   if (error.code == 'category_id_must_not_be_null') {
     return 'Category must be selected.';
   }
+  else if (error.code == 'name_constraints.nameisunique') {
+    return 'Category name must be unique';
+  }
   else {
     return `${capitalizeFirstLetter(error.field)} ${error.message}.`;
   } 
